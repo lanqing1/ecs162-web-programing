@@ -2,9 +2,11 @@ const express = require('express');
 const port = 51577;
 const APIrequest = require('request');
 const http = require('http');
-const APIkey = "AIzaSyDmEaUmKwepuvcQM_T3vijxo02qBzrp1oU";  // ADD API KEY HERE
+const APIkey = "AIzaSyDmEaUmKwepuvcQM_T3vijxo02qBzrp1oU";
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey
 
+// can pull data from translate API and put into res.
+// may need changes on some part
 function queryHandler(req, res, next) {
   let word = req.query.word;
   console.log("english: "+word);
@@ -25,12 +27,11 @@ function queryHandler(req, res, next) {
           res.json({"English":word,
           "Korean":APIresBody.data.translations[0].translatedText});
 	   console.log(res.json);
-        //  console.log(JSON.stringify(res, undefined, 2));
         }
       }
     }
     APIrequest(
-      { // HTTP header stuff
+      { 
         url: url,
         method: "POST",
         headers: {"content-type": "application/json"},
@@ -49,7 +50,7 @@ function queryHandler(req, res, next) {
     res.send('Cannot find '+url);
   }
 
-  // put together the server pipeline
+//may need change here
   const app = express()
   app.use(express.static('public'));  // can I find a static file?
   app.get('/query', queryHandler );   // if not, is it a valid query?
