@@ -9,16 +9,6 @@ const sqlite3 = require("sqlite3").verbose();
 const dbFileName = "Flashcards.db";
 const db = new sqlite3.Database(dbFileName);
 
-const cmdStrCreate = 'CREATE TABLE Flashcards (user INT,english TEXT, korean TEXT, seen INT, correct INT)';
-db.run(cmdStrCreate,tableCreationCallback);
-function tableCreationCallback(err) {
-  if (err) {
-    console.log("Table creation error",err);
-  } else {
-    console.log("Database created");
-    // when to close db if not here?
-  }
-}
 function saveHandler(req,res,next){
   let en = req.query.english;
   let ko = req.query.korean;
