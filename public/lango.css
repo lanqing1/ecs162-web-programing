@@ -25,6 +25,7 @@ div.inputDiv, div.outputDiv {
     text-align: center;
     font-size: 70pt;
     color: #606B9B;
+    font-weight: 900;
 }
 
 #textArea {
