@@ -54,6 +54,7 @@ var main = React.createElement(
     "main",
     null,
     lango,
+    React.createElement(writeReview, null),
     React.createElement(FlexContainer, null),
     React.createElement(SaveBtn, null),
     React.createElement(Footer, null)
