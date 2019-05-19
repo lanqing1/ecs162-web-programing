@@ -12,7 +12,16 @@ function SaveBtn() {
   return React.createElement(
 		"p",
 		{id: "store",onClick: storeToDB},
-		"save");
+		"Save");
+}
+
+function flexContainer() {
+    return React.createElement(
+        "div",
+        {className: "container"},
+        React.createElement(FirstInputCard, null),
+        React.createElement(FirstCard, null)
+        )
 }
 
 function FirstInputCard() {
@@ -20,7 +29,6 @@ function FirstInputCard() {
 	{className: "inputDiv" },
 	React.createElement("textarea",{id: "textArea",onKeyDown: checkReturn}));
 }
-
 
 function FirstCard() {
   return React.createElement(
@@ -30,15 +38,21 @@ function FirstCard() {
 }
 
 var main = React.createElement(
-	"main",
-	null,
-	lango,
-	React.createElement(FirstInputCard, null),
-  React.createElement(SaveBtn, null),
-  React.createElement(FirstCard, null)
+    "main",
+    {id: "main"}
+    lango,
+    React.createElement(flexContainer, null),
+    React.createElement(SaveBtn, null),
+);
+
+var footer = React.createElement(
+    "footer",
+    null,
+    "UserName"
 );
 
 ReactDOM.render(main, document.getElementById('root'));
+ReactDOM.render(footer, document.getElementById('footer'))
 var object;
 var input;
 
@@ -58,6 +72,7 @@ function request(method, url) {
 	xhr.open(method, url);
 	return xhr;
 }
+
 function makeRequestStore(anything){
 	let url="store?english="+anything+"&korean="+object.Korean;
 	let xhr = request('GET', url);
