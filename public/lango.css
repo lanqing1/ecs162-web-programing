@@ -4,15 +4,38 @@ body {
 
 div.inputDiv, div.outputDiv {
     background-color: #ffffff;
-    border-style: solid;
-    border-width: 4px;
+    border: 3px solid #707c8e;
+    border-radius: 8px;
+    font-family: Helvetica, Helvetica Neue;
 
     width: 150px;
     height: 90px;
 
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+#textArea {
+    font-family: Helvetica, Helvetica Neue;
+    font-size: 30pt;    
+}
+
+#outputGoesHere {
+    font-family: Helvetica, Helvetica Neue;
+    font-size: 30pt;    
+}
+
+#footer {
+    font-family: Helvetica, Helvetica Neue;
+    font-size: 25pt;
+    background-color: #606B9B;
+}
+
+#store {
+    font-family: Helvetica, Helvetica Neue;
+    font-size: 25pt;
 }
 
 /* don't get weird blue border when I type */
