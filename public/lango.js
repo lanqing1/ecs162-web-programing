@@ -21,7 +21,7 @@ function flexContainer() {
         {className: "container"},
         React.createElement(FirstInputCard, null),
         React.createElement(FirstCard, null)
-        )
+    );
 }
 
 function FirstInputCard() {
@@ -42,6 +42,7 @@ var main = React.createElement(
     null,
     lango,
     //React.createElement(FirstInputCard, null),
+    React.createElement(flexContainer, null)
     React.createElement(SaveBtn, null),
     //React.createElement(FirstCard, null)
 );
