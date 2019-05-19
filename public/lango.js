@@ -19,8 +19,8 @@ function flexContainer() {
     return React.createElement(
         "div",
         {className: "container"},
-  //      React.createElement(FirstInputCard, null),
-  //      React.createElement(FirstCard, null)
+        React.createElement(FirstInputCard, null),
+        React.createElement(FirstCard, null)
     );
 }
 
