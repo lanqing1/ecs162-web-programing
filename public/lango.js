@@ -41,9 +41,9 @@ var main = React.createElement(
     "main",
     null,
     lango,
-    React.createElement(FirstInputCard, null),
-  React.createElement(SaveBtn, null),
-  React.createElement(FirstCard, null)
+    //React.createElement(FirstInputCard, null),
+    React.createElement(SaveBtn, null),
+    //React.createElement(FirstCard, null)
 );
 
 var footer = React.createElement(
