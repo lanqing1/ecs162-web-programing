@@ -15,6 +15,15 @@ function SaveBtn() {
 		"Save");
 }
 
+function flexContainer() {
+    return React.createElement(
+        "div",
+        {className: "container"},
+        React.createElement(FirstInputCard, null),
+        React.createElement(FirstCard, null)
+        )
+}
+
 function FirstInputCard() {
   return React.createElement("div",
 	{className: "inputDiv" },
@@ -28,18 +37,12 @@ function FirstCard() {
 		React.createElement("p", {id: "outputGoesHere"}));
 }
 
-function footer() {
-    return React.createElement(
-        "footer",)
-}
-
 var main = React.createElement(
-	"main",
-	null,
-	lango,
-	React.createElement(FirstInputCard, null),
+    "main",
+    {id: "main"}
+    lango,
+    React.createElement(flexContainer, null),
     React.createElement(SaveBtn, null),
-    React.createElement(FirstCard, null)
 );
 
 var footer = React.createElement(

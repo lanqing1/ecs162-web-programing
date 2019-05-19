@@ -6,7 +6,6 @@ body {
 div.inputDiv, div.outputDiv {
     background-color: #ffffff;
     border: 3px solid #707c8e;
-    border-radius: 8px;
     font-family: Helvetica, Helvetica Neue;
 
     width: 150px;
@@ -33,12 +32,14 @@ div.inputDiv, div.outputDiv {
     font-size: 25pt;
     background-color: #606B9B;
     text-align: center;
-    
 }
 
 #store {
     font-family: Helvetica, Helvetica Neue;
     font-size: 25pt;
+    background-color: #70C7A9;
+    border: 1px solid #70C7A9;
+    border-radius: 8px;
 }
 
 /* don't get weird blue border when I type */
