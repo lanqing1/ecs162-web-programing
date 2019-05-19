@@ -12,7 +12,7 @@ function writeReview() {
     return React.createElement(
         "div",
     {id: writeBtn,/*onclick: review*/},
-    "Start Review")
+    "Start Review");
 }
 
 function SaveBtn() {
