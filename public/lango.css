@@ -15,6 +15,7 @@ div.inputDiv, div.outputDiv {
 
     width: 400px;
     height: 350px;
+    margin: 15px;
 
     justify-content: center;
     align-items: center;
