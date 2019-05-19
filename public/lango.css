@@ -22,7 +22,7 @@ div.inputDiv, div.outputDiv {
 
 #logo {
     margin-top: 50px;
-    margin-bottom: 120px;
+    margin-bottom: 90px;
     font-family: 'Raleway', sans-serif;
     text-align: center;
     font-size: 70pt;
@@ -49,21 +49,25 @@ footer {
     bottom: 0;
     width: 100%;
     height: 2.5rem;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #store {
     font-family: Helvetica, Helvetica Neue;
     font-size: 25pt;
+    color: #ffffff;
     background-color: #70C7A9;
     border: 1px solid #70C7A9;
     border-radius: 10px;
     text-align: center;
+    vertical-align: middle;
 
     width: 150px;
     height: 50px;
 
     float: right;
-    margin-right: 20%;
+    margin-right: 25%;
 }
 
 /* don't get weird blue border when I type */
