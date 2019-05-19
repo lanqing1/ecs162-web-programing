@@ -17,10 +17,12 @@ div.inputDiv, div.outputDiv {
 
     width: 400px;
     height: 350px;
-    margin: 15px;
+    margin: 30px;
 }
 
 #logo {
+    margin-top: 50px;
+    margin-bottom: 120px;
     font-family: 'Raleway', sans-serif;
     text-align: center;
     font-size: 70pt;
@@ -55,12 +57,13 @@ footer {
     background-color: #70C7A9;
     border: 1px solid #70C7A9;
     border-radius: 10px;
+    text-align: center;
 
     width: 150px;
     height: 50px;
 
     float: right;
-    margin-right: 17%;
+    margin-right: 20%;
 }
 
 /* don't get weird blue border when I type */
