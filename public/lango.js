@@ -39,10 +39,11 @@ function FirstCard() {
 
 var main = React.createElement(
     "main",
-    {id: "main"}
+    null,
     lango,
-    React.createElement(flexContainer, null),
-    React.createElement(SaveBtn, null),
+    React.createElement(FirstInputCard, null),
+  React.createElement(SaveBtn, null),
+  React.createElement(FirstCard, null)
 );
 
 var footer = React.createElement(
