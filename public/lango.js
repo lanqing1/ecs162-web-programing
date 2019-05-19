@@ -15,7 +15,7 @@ function SaveBtn() {
 		"Save");
 }
 
-function flexContainer() {
+function FlexContainer() {
     return React.createElement(
         "div",
         {className: "container"},
@@ -37,22 +37,22 @@ function FirstCard() {
 		React.createElement("p", {id: "outputGoesHere"}));
 }
 
+function Footer() {
+    return React.createElement("footer",
+        null,
+        "UserName");//Will need to replace username later and make it react to actual usernames
+}
+
 var main = React.createElement(
     "main",
     null,
     lango,
-    React.createElement(flexContainer, null),
+    React.createElement(FlexContainer, null),
     React.createElement(SaveBtn, null),
-);
-
-var footer = React.createElement(
-    "footer",
-    null,
-    "UserName"
+    React.createElement(Footer, null)
 );
 
 ReactDOM.render(main, document.getElementById('root'));
-ReactDOM.render(footer, document.getElementById('footer'))
 var object;
 var input;
 
