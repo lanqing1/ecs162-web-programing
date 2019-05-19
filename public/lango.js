@@ -11,8 +11,8 @@ var lango = React.createElement(
 function writeReview() {
     return React.createElement(
         "div",
-    {id: writeBtn,/*onclick: review*/},
-    "Start Review");
+        { id: "writeBtn"/*,onclick: review*/},
+        "Start Review");
 }
 
 function SaveBtn() {
