@@ -3,16 +3,19 @@ body {
     min-height: 100vh;
 }
 
+.container{
+    display: flex;
+    flex-direction: row;
+}
+
 div.inputDiv, div.outputDiv {
     background-color: #ffffff;
     border: 3px solid #707c8e;
     font-family: Helvetica, Helvetica Neue;
 
-    width: 150px;
-    height: 90px;
+    width: 400px;
+    height: 350px;
 
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
@@ -40,6 +43,9 @@ div.inputDiv, div.outputDiv {
     background-color: #70C7A9;
     border: 1px solid #70C7A9;
     border-radius: 8px;
+
+    width: 90px;
+    height: 30px;
 }
 
 /* don't get weird blue border when I type */
