@@ -50,8 +50,6 @@ div.inputDiv, div.outputDiv {
 #textArea {
     font-family: Helvetica, Helvetica Neue;
     font-size: 30pt;
-    margin-left: 10%;
-    margin-right: 10%;
 }
 
 #outputGoesHere {
