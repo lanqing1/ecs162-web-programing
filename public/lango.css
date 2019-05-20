@@ -1,6 +1,6 @@
 body {
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container{
@@ -30,7 +30,7 @@ div.inputDiv, div.outputDiv {
     font-weight: 900;
 }
 
-#writeBtn {
+#ReviewBtn {
     color: #ffffff;
     background-color: #606B9B;
     border: 1px solid #606B9B;
@@ -50,6 +50,8 @@ div.inputDiv, div.outputDiv {
 #textArea {
     font-family: Helvetica, Helvetica Neue;
     font-size: 30pt;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 #outputGoesHere {
