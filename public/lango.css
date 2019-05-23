@@ -1,6 +1,12 @@
+
+html { /* To avoid scrolling */
+    margin: 0;
+}
+
 body {
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     min-height: 100vh;
+    margin: 0;
 }
 
 .container{
