@@ -97,7 +97,6 @@ textarea:focus {
 }
 
 textarea {
-    flex-grow: 1;
     border: none;
     width: 99%;
     text-align: center;
