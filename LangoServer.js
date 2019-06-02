@@ -3,6 +3,8 @@ const passport = require('passport');
 const http = require('http');
 const sqlite3 = require("sqlite3").verbose();
 const APIrequest = require('request');
+const GoogleStrategy = require('passport-google-oauth20');
+const cookieSession = require('cookie-session');
 
 const port = 57507;
 const APIkey = "AIzaSyDmEaUmKwepuvcQM_T3vijxo02qBzrp1oU";
@@ -16,6 +18,16 @@ const googleLoginData = {
     clientSecret: 'W-edC3ifbkX9nxSDoNheWPca',
     callbackURL: '/auth/redirect'
 };
+
+function isAuthenticated(req, res, next) {
+  if (req.user) {
+    console.log("Req.session:", req.session);
+    console.log("Req.user:", req.user);
+    next();
+  } else {
+    res.redirect('/login.html');
+  }
+}
 
 function saveHandler(req,res,next){
   let en = req.query.english;
@@ -31,6 +43,7 @@ function saveHandler(req,res,next){
   res.statusCode = 204;
   res.send();
 }
+
 function translateHandler(req, res, next) {
   let word = req.query.word;
   console.log("english: "+word);
@@ -84,9 +97,44 @@ function translateHandler(req, res, next) {
       keys: ['hanger waldo mercy dance']  
   }));
 
+  // Initializes request object for further handling by passport
+  app.use(passport.initialize()); 
+
+  // If there is a valid cookie, will call deserializeUser()
+  app.use(passport.session()); 
+
   app.use(express.static('public'));
+
+  app.get('/auth/google',passport.authenticate('google',{ scope: ['profile'] }) );
+  app.get('/auth/redirect',
+    function (req, res, next) {
+      console.log("at auth/redirect");
+      next();
+    },
+
+    // This will issue Server's own HTTPS request to Google
+    // to access the user's profile information with the 
+    // temporary key we got in the request. 
+    passport.authenticate('google'),
+
+    // then it will run the "gotProfile" callback function,
+    // set up the cookie, call serialize, whose "done" 
+   // will come back here to send back the response
+   // ...with a cookie in it for the Browser!
+    function(req, res) {
+      console.log('Logged in and using cookies!')
+      res.redirect('/public/lango.html');
+    }
+  );
+
+  app.get('/public/*',
+    isAuthenticated,
+    express.static(".")
+  );
+
   app.get('/translate', translateHandler );
   app.get('/store',saveHandler);
+
   app.use( fileNotFound );
 
   app.listen(port, function (){console.log('Listening...');} )
