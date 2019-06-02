@@ -74,67 +74,100 @@ function translateHandler(req, res, next) {
         json: requestObject	},
         APIcallback
       );
-    }else {
-      next();
-    }
+  }else {
+    next();
   }
+}
 
-  function fileNotFound(req, res) {
-    let url = req.url;
-    res.type('text/plain');
-    res.status(404);
-    res.send('Cannot find '+url);
-  }
+function fileNotFound(req, res) {
+  let url = req.url;
+  res.type('text/plain');
+  res.status(404);
+  res.send('Cannot find '+url);
+}
+
+function gotProfile(accessToekn, refreshToken, profile, done) {
+  console.log("Google profile", profile);
+  // here is a good place to check if user is in DB,
+  // and to store him in DB if not already there. 
+  // Second arg to "done" will be passed into serializeUser,
+  // should be key to get user out of database.
+
+  let dbRowID = 1;
+  done(null, dbRowID);
+}
 
   // put together the server pipeline
-  passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
+passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
 
-  const app = express()
+const app = express()
 
-  app.use(cookieSession({
-      maxAge: 6 * 60 * 60 * 1000, // Six hours in milliseconds
-      // meaningless random string used by encryption
-      keys: ['hanger waldo mercy dance']  
-  }));
+app.use(cookieSession({
+    maxAge: 6 * 60 * 60 * 1000, // Six hours in milliseconds
+    // meaningless random string used by encryption
+    keys: ['hanger waldo mercy dance']  
+}));
 
-  // Initializes request object for further handling by passport
-  app.use(passport.initialize()); 
+// Initializes request object for further handling by passport
+app.use(passport.initialize()); 
 
-  // If there is a valid cookie, will call deserializeUser()
-  app.use(passport.session()); 
+// If there is a valid cookie, will call deserializeUser()
+app.use(passport.session()); 
 
-  app.use(express.static('public'));
+app.use(express.static('public'));
 
-  app.get('/auth/google',passport.authenticate('google',{ scope: ['profile'] }) );
-  app.get('/auth/redirect',
-    function (req, res, next) {
-      console.log("at auth/redirect");
-      next();
-    },
+app.get('/auth/google',passport.authenticate('google',{ scope: ['profile'] }) );
+app.get('/auth/redirect',
+  function (req, res, next) {
+    console.log("at auth/redirect");
+    next();
+  },
 
-    // This will issue Server's own HTTPS request to Google
-    // to access the user's profile information with the 
-    // temporary key we got in the request. 
-    passport.authenticate('google'),
+  // This will issue Server's own HTTPS request to Google
+  // to access the user's profile information with the 
+  // temporary key we got in the request. 
+  passport.authenticate('google'),
 
-    // then it will run the "gotProfile" callback function,
-    // set up the cookie, call serialize, whose "done" 
-   // will come back here to send back the response
-   // ...with a cookie in it for the Browser!
-    function(req, res) {
-      console.log('Logged in and using cookies!')
-      res.redirect('/public/lango.html');
-    }
-  );
+  // then it will run the "gotProfile" callback function,
+  // set up the cookie, call serialize, whose "done" 
+  // will come back here to send back the response
+  // ...with a cookie in it for the Browser!
+  function(req, res) {
+    console.log('Logged in and using cookies!')
+    res.redirect('/public/lango.html');
+  }
+);
 
-  app.get('/public/*',
-    isAuthenticated,
-    express.static(".")
-  );
+app.get('/public/*',
+  isAuthenticated,
+  express.static(".")
+);
 
-  app.get('/translate', translateHandler );
-  app.get('/store',saveHandler);
+app.get('/translate', translateHandler );
+app.get('/store',saveHandler);
 
-  app.use( fileNotFound );
+app.use( fileNotFound );
 
-  app.listen(port, function (){console.log('Listening...');} )
+app.listen(port, function (){console.log('Listening...');} )
+
+// Part of Server's sesssion set-up.  
+// The second operand of "done" becomes the input to deserializeUser
+// on every subsequent HTTP request with this session's cookie. 
+passport.serializeUser((dbRowID, done) => {
+    console.log("SerializeUser. Input is",dbRowID);
+    done(null, dbRowID);
+});
+
+// Called by passport.session pipeline stage on every HTTP request with
+// a current session cookie. 
+// Where we should lookup user database info. 
+// Whatever we pass in the "done" callback becomes req.user
+// and can be used by subsequent middleware.
+passport.deserializeUser((dbRowID, done) => {
+    console.log("deserializeUser. Input is:", dbRowID);
+    // here is a good place to look up user data in database using
+    // dbRowID. Put whatever you want into an object. It ends up
+    // as the property "user" of the "req" object. 
+    let userData = {userData: "data from db row goes here"};
+    done(null, userData);
+});
