@@ -1,13 +1,21 @@
 const express = require('express');
-const port = 57507;
-const APIrequest = require('request');
+const passport = require('passport');
 const http = require('http');
+const sqlite3 = require("sqlite3").verbose();
+const APIrequest = require('request');
+
+const port = 57507;
 const APIkey = "AIzaSyDmEaUmKwepuvcQM_T3vijxo02qBzrp1oU";
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey
 const cmdStr = 'INSERT into Flashcards (user, english,korean, seen, correct) VALUES (1, @0, @1, 0, 0)';
-const sqlite3 = require("sqlite3").verbose();
 const dbFileName = "Flashcards.db";
 const db = new sqlite3.Database(dbFileName);
+
+const googleLoginData = {
+    clientID: '472036695689-s9n5kubr2kuqftbvk0ujl67i324njo3p.apps.googleusercontent.com',
+    clientSecret: 'W-edC3ifbkX9nxSDoNheWPca',
+    callbackURL: '/auth/redirect'
+};
 
 function saveHandler(req,res,next){
   let en = req.query.english;
@@ -66,6 +74,8 @@ function translateHandler(req, res, next) {
   }
 
   // put together the server pipeline
+  passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
+
   const app = express()
   app.use(express.static('public'));
   app.get('/translate', translateHandler );
