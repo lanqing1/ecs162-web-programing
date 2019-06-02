@@ -14,8 +14,8 @@ const dbFileName = "Flashcards.db";
 const db = new sqlite3.Database(dbFileName);
 
 const googleLoginData = {
-    clientID: '472036695689-s9n5kubr2kuqftbvk0ujl67i324njo3p.apps.googleusercontent.com',
-    clientSecret: 'W-edC3ifbkX9nxSDoNheWPca',
+    clientID: '535090601087-2arfflfn8a5sl4avr05kqgb6j00d8ln7.apps.googleusercontent.com',
+    clientSecret: '8Iag1z4KGnaFt1pBZoBK_Wdb',
     callbackURL: '/auth/redirect'
 };
 
