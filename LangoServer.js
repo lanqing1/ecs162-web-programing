@@ -77,6 +77,13 @@ function translateHandler(req, res, next) {
   passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
 
   const app = express()
+
+  app.use(cookieSession({
+      maxAge: 6 * 60 * 60 * 1000, // Six hours in milliseconds
+      // meaningless random string used by encryption
+      keys: ['hanger waldo mercy dance']  
+  }));
+
   app.use(express.static('public'));
   app.get('/translate', translateHandler );
   app.get('/store',saveHandler);
