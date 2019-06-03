@@ -51,13 +51,18 @@ div.inputDiv, div.outputDiv {
 #textArea {
     font-family: Helvetica, Helvetica Neue;
     font-size: 30pt;
-    max-width: 296px;
+    max-width: 200px;
     height: 196px;
+    resize: none;
+    margin-top: 150px;
+    margin-left: 100px;
 }
 
 #outputGoesHere {
     font-family: Helvetica, Helvetica Neue;
-    font-size: 30pt;    
+    font-size: 30pt;   
+    margin-top: 150px;
+    margin-left: 100px; 
 }
 
 footer {
