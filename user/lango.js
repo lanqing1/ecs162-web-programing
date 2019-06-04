@@ -137,7 +137,7 @@ function checkReturn(event) {
 
 function checkAnswer(event) {
     if (event.keyCode == 13) {
-        input = document.getElementById("reviewTextArea").value;
+        let answer = document.getElementById("reviewTextArea").value;
         console.log("Checking answer!")
         //Actually check answer... have to do this on server side.
     }
@@ -145,9 +145,6 @@ function checkAnswer(event) {
 
 function storeToDB() {
 	makeRequestStore(input);
-
-    document.getElementById("inputDiv").value = "";
-    document.getElementById("outputDiv").value = "";
 }
 
 function request(method, url) {
