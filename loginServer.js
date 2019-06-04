@@ -194,7 +194,7 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     let lastname = object.family_name;
     let dbRowID = object.sub;
 
-    console.log("Did we get the names?: ", firstName, " ", lastname);
+    console.log("Did we get the names?: ", firstname, " ", lastname);
     //check if user is in DB,store him in DB if not already there.
     db.run( 'SELECT googleID FROM UserInfo', tableSearchCallback);
     function tableSearchCallback( err, data ) {
