@@ -11,7 +11,7 @@ var lango = React.createElement(
 function writeReview() {
     return React.createElement(
         "div",
-        { id: "ReviewBtn"/*,onclick: review*/},
+        { id: "ReviewBtn",onClick: startReview},
         "Start Review");
 }
 
@@ -22,12 +22,35 @@ function SaveBtn() {
 		"Save");
 }
 
+function addBtn() {
+    return React.createElement(
+        "div",
+        { id: "addBtn"/*,onClick: backToSave*/},
+        "Add");
+}
+
+function nextBtn() {
+    return React.createElement(
+        "div",
+        { id: "nextBtn"/*,onClick: nextCard*/},
+        "Next");
+}
+
 function FlexContainer() {
     return React.createElement(
         "div",
         {className: "container"},
         React.createElement(FirstInputCard, null),
         React.createElement(FirstCard, null)
+    );
+}
+
+function ReviewFlexContainer() {
+    return React.createElement(
+        "div",
+        {className: "reviewContainer"},
+        React.createElement(OutputCard, null),
+        React.createElement(InputCard, null)
     );
 }
 
@@ -43,6 +66,29 @@ function FirstCard() {
 		{className: "outputDiv"},
 		React.createElement("p", {id: "outputGoesHere"}));
 }
+
+function OutputCard() {
+    return React.createElement(
+        "div",
+        {id: "outputCard"},
+        React.createElement("img", {id: "refresh", src: "./assets/noun_Refresh_2310283.svg", onClick: flipCard}),
+        React.createElement("p", {id: "reviewOutput"})
+    );
+}
+
+function InputCard() {
+    return React.createElement(
+        "div",
+        {id: "inputCard"},
+        React.createElement("textarea",{id: "reviewTextArea", onKeyDown: checkAnswer})
+    );
+}
+
+function flipCard() {
+    console.log("Just here to avoid errors for now");
+    //Implement flipcard. I think there is a demo.
+}
+
 function Footer() {
 	return React.createElement("footer",null, " ",
 		React.createElement("p", 
@@ -60,14 +106,40 @@ var main = React.createElement(
     React.createElement(Footer, null)
 );
 
+let review = React.createElement(
+    "main",
+    null,
+    lango,
+    React.createElement(addBtn, null),
+    React.createElement(ReviewFlexContainer, null),
+    React.createElement(nextBtn, null),
+    React.createElement(Footer, null)
+);
+
 ReactDOM.render(main, document.getElementById('root'));
 var object;
 var input;
 
+function startReview() {
+    ReactDOM.render(review, document.getElementById('root'));
+}
+
+function backToSave() {
+    ReactDOM.render(main, document.getElementById('root'));
+}
+
 function checkReturn(event) {
 	if (event.keyCode==13) {
-		 	input = document.getElementById("textArea").value;
-      makeRequest(input);
+		input = document.getElementById("textArea").value;
+        makeRequest(input);
+    }
+}
+
+function checkAnswer(event) {
+    if (event.keyCode == 13) {
+        input = document.getElementById("reviewTextArea").value;
+        console.log("Checking answer!")
+        //Implement request for checking answer...
     }
 }
 
@@ -80,6 +152,7 @@ function request(method, url) {
 	xhr.open(method, url);
 	return xhr;
 }
+
 function changeName(){
 	let url = "/user/query";
 	let xhr = request('GET', url);
@@ -95,6 +168,7 @@ function changeName(){
 	};
 	
 }
+
 function makeRequestStore(anything){
 	let url="/user/store?english="+anything+"&korean="+object.Korean;
 	let xhr = request('GET', url);
