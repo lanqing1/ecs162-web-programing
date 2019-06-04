@@ -107,7 +107,6 @@ function saveHandler(req,res,next){
     }
     //printout database
     db.all ( 'SELECT * FROM flashcards', dataCallback);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     function dataCallback( err, data ) {console.log(data);}
     res.statusCode = 204;
     res.send();
@@ -195,15 +194,16 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     let lastname = object.family_name;
     let dbRowID = object.sub;
 
-    console.log("Did we get the names?: ", firstname, " ", lastname);
     //check if user is in DB,store him in DB if not already there.
-    db.run( 'SELECT googleID FROM UserInfo', tableSearchCallback);
+    db.run( 'SELECT googleID FROM UserInfo WHERE googleID = dbRowID', tableSearchCallback);
     function tableSearchCallback( err, data ) {
-        if(data == null){//insert user info into table
-            console.log('data is null');
+        if(err){
+            console.log("tableSearchCallback error");
+        } else if(data == null) {
+            //Add user
             /*
-            let cmdStr = 'INSERT into UserInfo (firstname, lastname,googleID) VALUES (@0,@1,@2)';
-            db.run(cmdStr ,firstname,lastname,dbRowID,insertCallback);
+            let cmdStr = 'INSERT into UserInfo (firstname, lastname, googleID) VALUES (@0,@1,@2)';
+            db.run(cmdStr ,firstname ,lastname ,dbRowID ,insertCallback);
             function insertCallback(err,data) {
                 console.log(data);
             }
