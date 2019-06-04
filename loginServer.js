@@ -193,6 +193,9 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     let firstname = object.given_name;
     let lastname = object.family_name;
     let dbRowID = object.sub;
+
+    console.log("Google profile", profile)
+
     //check if user is in DB,store him in DB if not already there.
     db.run( 'SELECT googleID FROM UserInfo', tableSearchCallback);
     function tableSearchCallback( err, data ) {
@@ -221,7 +224,8 @@ function gotProfile(accessToken, refreshToken, profile, done) {
 // The second operand of "done" becomes the input to deserializeUser
 // on every subsequent HTTP request with this session's cookie.
 passport.serializeUser((dbRowID, done) => {
-    console.log("SerializeUser. Input is",dbRowID);
+    //console.log("SerializeUser. Input is",dbRowID);
+    
     done(null, dbRowID);
 });
 
@@ -231,7 +235,8 @@ passport.serializeUser((dbRowID, done) => {
 // Whatever we pass in the "done" callback becomes req.user
 // and can be used by subsequent middleware.
 passport.deserializeUser((dbRowID, done) => {
-    console.log("deserializeUser. Input is:", dbRowID);
+    //console.log("deserializeUser. Input is:", dbRowID);
+
     // here is a good place to look up user data in database using
     // dbRowID. Put whatever you want into an object. It ends up
     // as the property "user" of the "req" object.
