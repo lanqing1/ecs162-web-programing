@@ -175,7 +175,7 @@ function fileNotFound(req, res) {
     res.type('text/plain');
     res.status(404);
     res.send('Cannot find '+url);
-    }
+}
 
 // Some functions Passport calls, that we can use to specialize.
 // This is where we get to write our own code, not just boilerplate.
