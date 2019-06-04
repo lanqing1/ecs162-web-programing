@@ -51,11 +51,12 @@ div.inputDiv, div.outputDiv {
 #textArea {
     font-family: Helvetica, Helvetica Neue;
     font-size: 30pt;
-    max-width: 200px;
+    max-width: 296px;
     height: 196px;
     resize: none;
     margin-top: 150px;
     margin-left: 100px;
+    text-align: center;
 }
 
 #outputGoesHere {
