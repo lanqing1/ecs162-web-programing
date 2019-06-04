@@ -1,20 +1,22 @@
 body {
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     min-height: 100vh;
-    min-width: 100vw;
 }
 
 #loginPage{
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
-#welcome{
-    width:60%;
-    background-image: linear-gradient(to bottom right, #606B9B,	#B191D4);
-    
+
+.welcome{
+    width: 60%;
+    height: 100%;
+    background-image: linear-gradient(to bottom right, #606B9B, #B191D4);
     filter: drop-shadow(10px 0px 15px rgb(146, 146, 146));
 }
-#googleLogo{
+
+.googleLogo{
     width:50%;
     margin-top: 20%;
     margin-left: 10%;
@@ -22,6 +24,7 @@ body {
     flex-direction: row;
 
 }
+
 #text_welcome,#text_lango{
     margin-left: 10%;
     color:White;
@@ -32,10 +35,12 @@ body {
     margin-bottom:5%;
     
 }
+
 #text_welcome{
     /* put welcome to in the middle */
     margin-top: 30vh;
 }
+
 #text_other{
 
     font-family: 'Open Sans', sans-serif;
@@ -46,6 +51,7 @@ body {
     
     color:#7AC2AA;
 }
+
 #logo{
     max-height:30px;
     padding: 5px;
@@ -63,68 +69,75 @@ body {
     color:white;
     margin-top: 0px;
 }
+
+
+
 /* laptop */
+/*
 @media screen and (min-width: 993px) {
-#welcome{
-    min-height: 100vh;
+    #welcome{
+        min-height: 100vh;
+    }
 }
-}
-/*tablet*/
+*/
+/* tablet */
+/*
 @media screen and (max-width: 992px) {
-#loginPage{
-    flex-direction: column;
-}
-#welcome{
-    width: 100%;
-    height: 90vh;
-    filter: drop-shadow(-5px 0px 20px rgb(83, 83, 83));
-}
-#googleLogo{
-    width: 100%;    
-}
+    #loginPage{
+        flex-direction: column;
+    }
+    #welcome{
+        width: 100%;
+        height: 90vh;
+        filter: drop-shadow(-5px 0px 20px rgb(83, 83, 83));
+    }
+    #googleLogo{
+        width: 100%;    
+    }
 
-#text_welcome,#text_lango,#text_other{
-    margin-bottom: 2%;
-    margin-left: 25%;
-    margin-top: 4%;
-}
-#text_welcome{
-    margin-top: 17%;    
-}
-#googleLogo{
-    margin-top: 10%;
-    margin-left: 30%;
-    margin-bottom: 6%;
-}
+    #text_welcome,#text_lango,#text_other{
+        margin-bottom: 2%;
+        margin-left: 25%;
+        margin-top: 4%;
+    }
+    #text_welcome{
+        margin-top: 17%;    
+    }
+    #googleLogo{
+        margin-top: 10%;
+        margin-left: 30%;
+        margin-bottom: 6%;
+    }
 
-body{
-    min-height: 100vh;
+    body{
+        min-height: 100vh;
+    }
 }
-}
-/*phone*/
+*/
+/* phone */
+/*
 @media screen and (max-width: 500px) {
+    #welcome{
+        height: 75vh;
+    }
 
-#welcome{
-    height: 75vh;
+    #text_welcome,#text_lango,#text_other{
+        margin-left: 20%;
+        font-size: 45px;
+    }
+    #text_welcome{
+        font-size: 45px;
+        margin-top: 30%;    
+    }
+    #text_other{
+        margin-top:6%;
+        font-size: 20px;
+    }
+    #googleLogo{
+        margin-top: 10%;
+        margin-left: 20%;
+        margin-bottom:0px;
+        font-size:22px;
+    }
 }
-
-#text_welcome,#text_lango,#text_other{
-    margin-left: 20%;
-    font-size: 45px;
-}
-#text_welcome{
-    font-size: 45px;
-    margin-top: 30%;    
-}
-#text_other{
-    margin-top:6%;
-    font-size: 20px;
-}
-#googleLogo{
-    margin-top: 10%;
-    margin-left: 20%;
-    margin-bottom:0px;
-    font-size:22px;
-}
-
-}
+*/
