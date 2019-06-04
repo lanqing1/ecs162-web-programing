@@ -98,11 +98,11 @@ div.inputDiv, div.outputDiv {
 #textArea {
     font-family: Helvetica, Helvetica Neue;
     font-size: 30pt;
-    max-width: 200px;
-    height: 196px;
+    max-width: 99%;
+    max-height: 95%;
     resize: none;
     margin-top: 150px;
-    margin-left: 100px;
+    text-align: center;
 }
 
 #reviewTextArea {
@@ -119,7 +119,7 @@ div.inputDiv, div.outputDiv {
     font-family: Helvetica, Helvetica Neue;
     font-size: 30pt;   
     margin-top: 150px;
-    margin-left: 100px; 
+    text-align: center; 
 }
 
 footer, #username {
