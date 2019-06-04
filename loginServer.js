@@ -100,14 +100,15 @@ function saveHandler(req,res,next){
     let en = req.query.english;
     let ko = req.query.korean;
     let cmdStr = 'INSERT into Flashcards (user, english,korean, seen, correct) VALUES (1, @0, @1, 0, 0)';
-    db.run(cmdStr  ,en, ko, insertCallback);
+    db.run(cmdStr, en, ko, insertCallback);
     //will have duplicated translation in db if click on save mulitiple times
     function insertCallback(err) {
       if (err) { console.log(err);}
     }
     //printout database
     db.all ( 'SELECT * FROM flashcards', dataCallback);
-    function dataCallback( err, data ) {console.log(data)}
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    function dataCallback( err, data ) {console.log(data);}
     res.statusCode = 204;
     res.send();
   }
@@ -198,7 +199,7 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     //check if user is in DB,store him in DB if not already there.
     db.run( 'SELECT googleID FROM UserInfo', tableSearchCallback);
     function tableSearchCallback( err, data ) {
-        if(!err && !data){//insert user info into table
+        if(data == null){//insert user info into table
             console.log('data is null');
             /*
             let cmdStr = 'INSERT into UserInfo (firstname, lastname,googleID) VALUES (@0,@1,@2)';
