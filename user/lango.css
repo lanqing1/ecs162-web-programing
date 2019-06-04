@@ -105,6 +105,16 @@ div.inputDiv, div.outputDiv {
     margin-left: 100px;
 }
 
+#reviewTextArea {
+    font-family: Helvetica, Helvetica Neue;
+    width: 99%;
+    max-height: 80%;
+    font-size: 30pt;
+    resize: none;
+    text-align: left;
+    margin-top: 10px;
+}
+
 #outputGoesHere {
     font-family: Helvetica, Helvetica Neue;
     font-size: 30pt;   
@@ -112,7 +122,7 @@ div.inputDiv, div.outputDiv {
     margin-left: 100px; 
 }
 
-footer {
+footer, #username {
     font-family: Helvetica, Helvetica Neue;
     font-size: 23pt;
     background-color: #606B9B;

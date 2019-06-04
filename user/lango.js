@@ -25,7 +25,7 @@ function SaveBtn() {
 function addBtn() {
     return React.createElement(
         "div",
-        { id: "addBtn"/*,onClick: backToSave*/},
+        { id: "addBtn",onClick: backToSave},
         "Add");
 }
 
