@@ -194,8 +194,7 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     let lastname = object.family_name;
     let dbRowID = object.sub;
 
-    console.log("Google profile", profile)
-
+    console.log("Did we get the names?: ", firstName, " ", lastname);
     //check if user is in DB,store him in DB if not already there.
     db.run( 'SELECT googleID FROM UserInfo', tableSearchCallback);
     function tableSearchCallback( err, data ) {
@@ -225,7 +224,7 @@ function gotProfile(accessToken, refreshToken, profile, done) {
 // on every subsequent HTTP request with this session's cookie.
 passport.serializeUser((dbRowID, done) => {
     //console.log("SerializeUser. Input is",dbRowID);
-    
+
     done(null, dbRowID);
 });
 
