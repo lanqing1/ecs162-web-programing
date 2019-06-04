@@ -145,6 +145,9 @@ function checkAnswer(event) {
 
 function storeToDB() {
 	makeRequestStore(input);
+
+    document.getElementById("inputDiv").textContent = "";
+    document.getElementById("outputDiv").textContent = "";
 }
 
 function request(method, url) {
