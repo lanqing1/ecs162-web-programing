@@ -43,11 +43,11 @@ function FirstCard() {
 		{className: "outputDiv"},
 		React.createElement("p", {id: "outputGoesHere"}));
 }
-
 function Footer() {
-    return React.createElement("footer",
-        null,
-        "UserName");//Will need to replace username later and make it react to actual usernames
+	return React.createElement("footer",null, " ",
+		React.createElement("p", 
+		{id: "username",onLoad:changeName()},
+		 "username"));
 }
 
 var main = React.createElement(
@@ -80,7 +80,21 @@ function request(method, url) {
 	xhr.open(method, url);
 	return xhr;
 }
-
+function changeName(){
+	let url = "/user/query";
+	let xhr = request('GET', url);
+	xhr.onload = function() {
+		let responseStr = xhr.responseText;
+		let object = JSON.parse(responseStr);
+		console.log(JSON.stringify(object, undefined, 4));
+		document.getElementById("username").textContent = object.name;
+	}
+	xhr.send();
+	xhr.onerror = function() {
+		alert('Error: Unable to make request');
+	};
+	
+}
 function makeRequestStore(anything){
 	let url="/user/store?english="+anything+"&korean="+object.Korean;
 	let xhr = request('GET', url);
