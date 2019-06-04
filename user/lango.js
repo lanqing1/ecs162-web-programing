@@ -139,7 +139,7 @@ function checkAnswer(event) {
     if (event.keyCode == 13) {
         input = document.getElementById("reviewTextArea").value;
         console.log("Checking answer!")
-        //Implement request for checking answer...
+        makeAnswerRequest(input);
     }
 }
 
@@ -200,4 +200,23 @@ function makeRequest(anything) {
 	xhr.onerror = function() {
 		alert('Error: Unable to make request');
 	};
+}
+
+function makeAnswerRequest(anything){
+    let url="/user/translate?word="+anything;
+    let xhr = request('GET', url);
+
+    xhr.onload = function() {
+        let responseStr = xhr.responseText;
+        object = JSON.parse(responseStr);
+        console.log(JSON.stringify(object, undefined, 4));
+
+        if(object.Korean == document.getElementById("reviewTextArea").textContent) {
+            //Corret!
+            console.log("Need to flash the correct! card for a few seconds");
+        } else {
+            //Incorrect!
+            flipCard();
+        }
+    }
 }
