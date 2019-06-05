@@ -176,6 +176,12 @@ textarea:focus {
 textarea {
     border: none;
 }
+
+.textarea {
+    overflow: hidden;
+    resize: none;
+}
+
 /* tablet */
 @media screen and (max-width: 992px) {
 

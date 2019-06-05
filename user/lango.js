@@ -134,14 +134,16 @@ var data;
 var index=0;
 
 function checkReturn(event) {
-	if (event.keyCode==13) {
-		input = document.getElementById("textArea").value;
+    if (event.keyCode==13) {
+        event.preventDefault();  //Avoids getting a newline when all we wanted is to detect ENTER
+	input = document.getElementById("textArea").value;
         makeRequest(input);
     }
 }
 
 function checkAnswer(event) {
     if (event.keyCode == 13) {
+        event.preventDefault();
         let answer = document.getElementById("reviewTextArea").value;
         console.log("Checking answer!")
         //Actually check answer... have to do this on server side.
