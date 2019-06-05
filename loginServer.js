@@ -78,13 +78,14 @@ app.get('/user/*',
 	// user is logged in
 	// serving files that start with /user from here gets them from ./
 	express.static('.')
-       );
+);
 
 // next, all queries (like translate or store or get...
 
 app.get(express.static('user'));
 app.get('/user/translate', translateHandler );
 app.get('/user/store', saveHandler);
+//app.get('/user/checkAnswer', answerHandler)
 app.get('/user/query', function (req, res) {  res.send(req.user);});
 
 // finally, not found...applies to everything
@@ -147,10 +148,14 @@ function translateHandler(req, res, next) {
             APIcallback
         );
         }else {
-        next();
+            next();
         }
 }
-
+/*
+function answerHandler(req, res, next) {
+    console.log(req);
+}
+*/
 
 // print the url of incoming HTTP request
 function printURL (req, res, next) {
