@@ -18,7 +18,7 @@ function writeReview() {
 function SaveBtn() {
   return React.createElement(
 		"p",
-		{id: "store",onClick: storeToDB},
+		{id: "store",onClick: storeToDB/*,onLoad:checkRedirect()*/},
 		"Save");
 }
 
@@ -32,7 +32,7 @@ function addBtn() {
 function nextBtn() {
     return React.createElement(
         "div",
-        { id: "nextBtn"/*,onClick: nextCard*/},
+        { id: "nextBtn",onClick: nextCard},
         "Next");
 }
 
@@ -72,7 +72,7 @@ function OutputCard() {
         "div",
         {id: "outputCard"},
         React.createElement("img", {id: "refresh", src: "./assets/noun_Refresh_2310283.svg", onClick: flipCard}),
-        React.createElement("p", {id: "reviewOutput"})
+        React.createElement("p", {id: "reviewOutput",onLoad:getCardsRequest()})
     );
 }
 
@@ -81,6 +81,7 @@ function InputCard() {
         "div",
         {id: "inputCard"},
         React.createElement("textarea",{id: "reviewTextArea", onKeyDown: checkAnswer})
+        //click or hit enter will flip cards and check answer???
     );
 }
 
@@ -117,8 +118,7 @@ let review = React.createElement(
 );
 
 ReactDOM.render(main, document.getElementById('root'));
-var object;
-var input;
+
 
 function startReview() {
     ReactDOM.render(review, document.getElementById('root'));
@@ -127,6 +127,11 @@ function startReview() {
 function backToSave() {
     ReactDOM.render(main, document.getElementById('root'));
 }
+
+var object;
+var input;
+var data;
+var index=0;
 
 function checkReturn(event) {
 	if (event.keyCode==13) {
@@ -140,6 +145,7 @@ function checkAnswer(event) {
         let answer = document.getElementById("reviewTextArea").value;
         console.log("Checking answer!")
         //Actually check answer... have to do this on server side.
+        //update correct
     }
 }
 
@@ -152,6 +158,57 @@ function request(method, url) {
 	xhr.open(method, url);
 	return xhr;
 }
+/* doesn't work. How to check redirect???
+function checkRedirect(){
+    let url = "/auth/accepted";
+    let xhr = request('GET', url);
+    xhr.onload = function() {
+		let responseStr = xhr.responseText;
+        if(responseStr){
+            startReview();
+        }else{
+            backToSave();
+        }
+	}
+	xhr.send();
+    
+}
+*/
+function getCardsRequest(){
+    let url = "/user/getcards";
+    let xhr = request('GET', url);
+    xhr.onload = function() {
+		let responseStr = xhr.responseText;
+		data = JSON.parse(responseStr);
+        //console.log(data);
+        if(data){
+            document.getElementById("reviewOutput").textContent = data[0].english;
+            updateSeenRequest(data[0].english);
+            index=1;
+        }else{
+            document.getElementById("reviewOutput").textContent ="Finished reviewing";
+        }
+	}
+	xhr.send();
+
+}
+function nextCard(){
+    if(data[index]){
+        document.getElementById("reviewOutput").textContent = data[index].english;
+        updateSeenRequest(data[index].english);
+        index++;
+    }else{
+        document.getElementById("reviewOutput").textContent = "Finished reviewing";
+    }
+}
+function updateSeenRequest(en){
+    let url = "/user/seen?english="+en;
+    let xhr = request('GET',url);
+    xhr.onload = function() {
+		if(xhr.status==204){console.log("updated");}
+	}
+	xhr.send();
+}
 
 function changeName(){
 	let url = "/user/query";
@@ -163,9 +220,6 @@ function changeName(){
 		document.getElementById("username").textContent = object.name;
 	}
 	xhr.send();
-	xhr.onerror = function() {
-		alert('Error: Unable to make request');
-	};
 	
 }
 
@@ -179,9 +233,6 @@ function makeRequestStore(anything){
 		}
 	}
 	xhr.send();
-	xhr.onerror = function() {
-		alert('Error: Unable to make request');
-	};
 }
 
 function makeRequest(anything) {
@@ -195,10 +246,8 @@ function makeRequest(anything) {
 		document.getElementById("outputGoesHere").textContent = object.Korean;
 		//xhr.status can check if it's stored.
 	}
-
 	xhr.send();
 	xhr.onerror = function() {
 		alert('Error: Unable to make request');
 	};
 }
-
