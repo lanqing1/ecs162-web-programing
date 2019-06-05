@@ -162,8 +162,9 @@ function printURL (req, res, next) {
 // personal data
 function isAuthenticated(req, res, next) {
     if (req.user) {
-	console.log("Req.session:",req.session);
-	console.log("Req.user:",req.user);
+	//console.log("Req.session:",req.session);
+	//console.log("Req.user:",req.user);
+    console.log("Req: ", req)
 	next();
     } else {
 	res.redirect('/login.html');  // send response telling
