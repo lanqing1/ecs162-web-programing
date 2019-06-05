@@ -21,10 +21,17 @@ body {
     background-color: #ffffff;
     border: 2px solid #707c8e;
     font-family: Helvetica, Helvetica Neue;
+    text-align: center;
+    font-size: 50pt;
+    vertically-align: middle;
 
     width: 600px;
     height: 300px;
     margin-bottom: 20px;
+}
+
+#reviewOutput {
+    padding-top: 120px;
 }
 
 #inputCard {
