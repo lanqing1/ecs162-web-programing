@@ -99,10 +99,10 @@ function saveHandler(req,res,next){
 
     let en = req.query.english;
     let ko = req.query.korean;
-    let user = req.user;
-    console.log(user);
+    let user = req.user.google_id;
+    //console.log(user);
     let cmdStr = 'INSERT into Flashcards (user, english,korean, seen, correct) VALUES (?, ?, ?, 0, 0)';
-    db.run(cmdStr,2 ,en, ko, insertCallback);
+    db.run(cmdStr, user, en, ko, insertCallback);
     //will have duplicated translation in db if click on save mulitiple times
     function insertCallback(err) {
       if (err) { console.log(err);}
@@ -244,6 +244,7 @@ passport.deserializeUser((dbRowID, done) => {
     // as the property "user" of the "req" object.
 
     let cmdStr ='SELECT * FROM UserInfo WHERE googleID = ? ';
+    let cmdStr2='SELECT * FROM Flashcards WHERE googleID = ? ';
     db.get(cmdStr,[dbRowID],(err,row) =>{
         if(err){return console.error(err.message);}
         if(row){
@@ -258,5 +259,7 @@ passport.deserializeUser((dbRowID, done) => {
             console.error("what's going on?I'm not supposed to be here!");
         }
     });
+
+    let 
     
 });
