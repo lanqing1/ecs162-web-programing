@@ -204,7 +204,7 @@ function gotProfile(accessToken, refreshToken, profile, done) {
             let userData = {google_id:row.googleID,name: row.firstname};
             done(null, userData);
         }else {//insert user info into table         
-            let cmdStr = 'INSERT INTO UserInfo (googleID ,firstname, lastname) VALUES (?,?,?)';
+            let cmdStr = 'INSERT into UserInfo (googleID ,firstname, lastname) VALUES (?,?,?)';
             db.run(cmdStr ,dbRowID ,firstname,lastname);
             /*
             let userData = {google_id:dbRowID,name: firstname};
