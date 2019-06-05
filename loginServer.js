@@ -259,7 +259,4 @@ passport.deserializeUser((dbRowID, done) => {
             console.error("what's going on?I'm not supposed to be here!");
         }
     });
-
-    let 
-    
 });
