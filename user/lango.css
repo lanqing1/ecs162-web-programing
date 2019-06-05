@@ -1,4 +1,4 @@
-.body {
+body {
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     min-height: 100vh;
 }
@@ -63,7 +63,7 @@ div.inputDiv, div.outputDiv {
     font-weight:900;
 }
 
-#ReviewBtn {
+#ReviewBtn,#addBtn {
     color: #ffffff;
     background-color: #606B9B;
     border: 1px solid #606B9B;
@@ -77,23 +77,12 @@ div.inputDiv, div.outputDiv {
     padding-right: 25px;
     padding-left: 25px;
     margin-top: -80px;
+}
+#addBtn {
+    padding-left:50px;
+    padding-right:80px;
 }
 
-#addBtn {
-    color: #ffffff;
-    background-color: #606B9B;
-    border: 1px solid #606B9B;
-    border-radius: 10px;
-    text-align: center;
-    position: absolute;
-    font-size: 15pt;
-    font-family: Helvetica, Helvetica Neue;
-    margin-left: 8%;
-    padding: 10px;
-    padding-right: 25px;
-    padding-left: 25px;
-    margin-top: -80px;
-}
 
 #textArea {
     font-family: Helvetica, Helvetica Neue;
@@ -125,10 +114,11 @@ div.inputDiv, div.outputDiv {
 footer, #username {
     font-family: Helvetica, Helvetica Neue;
     font-size: 23pt;
+    color: white;
     background-color: #606B9B;
     text-align: center;
     position: absolute;
-    bottom: 0;
+    bottom: -15px;
     width: 100%;
     height: 2rem;
     padding-top: 5px;
@@ -169,6 +159,7 @@ footer, #username {
     float: right;
     margin-right: 25%;
     margin-top: 20px;
+    margin-bottom: 0px;
 }
 
 textarea:focus {
@@ -178,5 +169,83 @@ textarea:focus {
 textarea {
     border: none;
 }
+/* tablet */
+@media screen and (max-width: 992px) {
 
+div.inputDiv, div.outputDiv {
+    width: 380px;
+    margin:20px;
+}
+
+}
+/* phone */
+@media screen and (max-width: 500px) {
+  
+    #ReviewBtn {
+        font-size: 15pt;
+        margin-left: 8%;
+        padding: 10px;
+        padding-right: 25px;
+        padding-left: 25px;
+        margin-top: -80px;
+    }
+    .container{
+        flex-direction: column;
+        margin-top: 30px;
+    }
+    div.inputDiv, div.outputDiv {
+        width: 380px;
+        height: 200px;
+        margin:5px;
+    }
+    #textArea{
+        resize: none;
+        margin-top: 60px;
+    }
+    #logo{
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-size: 40pt;
+    }
+
+    #ReviewBtn,#addBtn {
+        font-size:18px;
+        margin-left: 2%;
+        padding: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-top: -60px;
+    }
+    #addBtn {
+        padding-right: 50px;
+        padding-left: 40px;
+        
+    }
+    #store {
+        margin-top: 10px;
+        margin-right:11%;
+        font-size: 21pt;
+        width: 100px;
+        height: 35px;
+    }
+    footer, #username {
+        font-size: 20pt;
+        height: 2rem;
+    }
+    #nextBtn {
+        margin-right: 11%;
+        margin-top: 30px;
+        width: 100px;
+        height: 35px;
+        font-size: 21pt;
+    }
+    
+    .reviewContainer {
+        margin-top: 8%;
+    }
+    #outputCard,#inputCard {
+        width: 380px;
+    
+    }
+}
 
