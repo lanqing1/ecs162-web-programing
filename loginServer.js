@@ -15,8 +15,8 @@ const db = new sqlite3.Database(dbFileName);
 
 // a redirect response that redirects to server162.site:[port]/auth/accepted
 const googleLoginData = {
-    clientID: '126866001304-79000o8bupaa24ejc7ljvm3ruhembibl.apps.googleusercontent.com',
-    clientSecret: 'YlQcKP6f1k59B6ngszB9h1R8',
+    clientID: '535090601087-2arfflfn8a5sl4avr05kqgb6j00d8ln7.apps.googleusercontent.com',
+    clientSecret: '8Iag1z4KGnaFt1pBZoBK_Wdb',
     callbackURL: redirectURL
 };
 
