@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
-const port = 57507;
+const port = 51577;
 const GoogleStrategy = require('passport-google-oauth20');
 const redirectURL = '/auth/accepted';
 
@@ -15,22 +15,13 @@ const db = new sqlite3.Database(dbFileName);
 
 // a redirect response that redirects to server162.site:[port]/auth/accepted
 const googleLoginData = {
-    clientID: '535090601087-2arfflfn8a5sl4avr05kqgb6j00d8ln7.apps.googleusercontent.com',
-    clientSecret: '8Iag1z4KGnaFt1pBZoBK_Wdb',
+    clientID: '126866001304-qig4ann5br35gtl9usruhjprhq0o1bq6.apps.googleusercontent.com',
+    clientSecret: 'Twi-FaKacJBnVlxS_48wOj8I',
     callbackURL: redirectURL
 };
 
-// Strategy configuration.
-// Tell passport we will be using login with Google, and
-// give it our data for registering us with Google.
-// The gotProfile callback is for the server's HTTPS request
-// to Google for the user's profile information.
-// It will get used much later in the pipeline.
 passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
 
-
-// Let's build a server pipeline!
-// app is the object that implements the express server
 const app = express();
 app.use('/', printURL);// pipeline stage that just echos url, for debugging
 
@@ -56,9 +47,11 @@ app.get('/auth/google', passport.authenticate('google',{ scope: ['profile'] }) )
 app.get(redirectURL,
 	// for educational purposes
 	function (req, res, next) {
+        //   here should check do we need redirect to review ???
+ 
 	    console.log("at auth/accepted");
 	    next();
-	},
+    },
 	// This will issue Server's own HTTPS request to Google
 	// to access the user's profile information with the
 	// temporary key we got in the request.
@@ -70,22 +63,57 @@ app.get(redirectURL,
 	function (req, res) {
 	    console.log('Logged in and using cookies!')
         res.redirect('/user/lango.html');
+        res.send(flag);
 	});
 
 // static files in /user are only available after login
 app.get('/user/*',
-	isAuthenticated, // only pass on to following function if
-	// user is logged in
-	// serving files that start with /user from here gets them from ./
+	isAuthenticated, 
 	express.static('.')
        );
-
 // next, all queries (like translate or store or get...
 
 app.get(express.static('user'));
 app.get('/user/translate', translateHandler );
 app.get('/user/store', saveHandler);
 app.get('/user/query', function (req, res) {  res.send(req.user);});
+app.get('/user/getcards',getData);
+app.get('/user/seen',function(req,res){
+    let id = req.user.id
+    let en = req.query.english;
+    db.get( 'SELECT * FROM Flashcards WHERE english = ? AND user = ?',[en,id], tableSearchCallback);
+    function tableSearchCallback( err, row,done) {
+        if(err){throw err;}
+        if(row){
+            let seen = row.seen+1;
+            console.log("before updated:",row)
+            console.log("updated seen: ",seen);
+            db.run('UPDATE Flashcards SET seen = '+seen+' Where english = ? AND user = ?',[en,id]);
+            done;
+        }       
+    }
+    res.statusCode=204;
+    res.send();
+});
+/* update correct
+app.get('/user/correct',function(req,res){
+    let id = req.user.id
+    let en = req.query.english;
+    db.get( 'SELECT * FROM Flashcards WHERE english = ? AND user = ?',[en,id], tableSearchCallback);
+    function tableSearchCallback( err, row,done) {
+        if(err){throw err;}
+        if(row){
+            let correct = row.correct+1;
+            console.log("before updated:",row)
+            console.log("updated correct: ",correct);
+            db.run('UPDATE Flashcards SET correct = '+correct+' Where english = ? AND user = ?',[en,id]);
+            done;
+        }       
+    }
+    res.statusCode=204;
+    res.send();
+});
+*/
 
 // finally, not found...applies to everything
 app.use( fileNotFound );
@@ -93,25 +121,39 @@ app.use( fileNotFound );
 // Pipeline is ready. Start listening!
 app.listen(port, function (){console.log('Listening...');} );
 
-
+function getData(req,res){
+    let id = req.user.id;
+    let cmdStr ='SELECT * FROM Flashcards WHERE user ='+id;
+    db.all(cmdStr,(err,arrayData) =>{
+        if(err){console.error(err.message);
+        }else{
+            res.send(arrayData);
+        }
+    });
+}
 // middleware functions
-function saveHandler(req,res,next){
+function saveHandler(req,res){
 
     let en = req.query.english;
     let ko = req.query.korean;
-    let user = req.user.google_id;
-    //console.log(user);
-    let cmdStr = 'INSERT into Flashcards (user, english,korean, seen, correct) VALUES (?, ?, ?, 0, 0)';
-    db.run(cmdStr, user, en, ko, insertCallback);
-    //will have duplicated translation in db if click on save mulitiple times
-    function insertCallback(err) {
-      if (err) { console.log(err);}
+    let id = req.user.id;
+    db.get( 'SELECT * FROM Flashcards WHERE english = ?', [en], tableSearchCallback);
+    function tableSearchCallback( err, row,done) {
+        if(err){throw err;}
+        if(row){
+            //if already exist-> print out
+            console.log(row);
+            done;
+        }else{
+            //insert into table        
+            let cmdStr = 'INSERT into Flashcards (user, english,korean, seen, correct) VALUES (?, ?, ?, 0, 0)';
+            db.run(cmdStr,[id ,en, ko], function(err){if(err){console.log(err);}}); 
+            done;              
+        }        
     }
     //printout database
-    db.all ( 'SELECT * FROM flashcards', dataCallback);
-    function dataCallback( err, data ) {console.log(data)}
+    db.all ( 'SELECT * FROM flashcards', function(data ) {console.log(data)});
     res.statusCode = 204;
-  
     res.send();
   }
 
@@ -125,10 +167,7 @@ function translateHandler(req, res, next) {
         if ((err) || (APIresHead.statusCode != 200)) {
             console.log("err="+err);
             console.log("status="+APIresHead.statusCode);
-
             console.log("Got API error");
-            console.log(requestObject);
-            console.log(APIresBody);
         } else {
             if (APIresHead.error) {
             console.log(APIresHead.error);
@@ -162,15 +201,15 @@ function printURL (req, res, next) {
 // personal data
 function isAuthenticated(req, res, next) {
     if (req.user) {
-	console.log("Req.session:",req.session);
-	console.log("Req.user:",req.user);
+    //console.log("Req.session:",req.session);
+    //console.log("Req.user:",req.user);
+    console.log("isAutenticated function~\n");
 	next();
     } else {
 	res.redirect('/login.html');  // send response telling
 	// Browser to go to login page
     }
 }
-
 
 // function for end of server pipeline
 function fileNotFound(req, res) {
@@ -180,14 +219,10 @@ function fileNotFound(req, res) {
     res.send('Cannot find '+url);
     }
 
-// Some functions Passport calls, that we can use to specialize.
-// This is where we get to write our own code, not just boilerplate.
 // The callback "done" at the end of each one resumes Passport's
 // internal process.
-
 // function called during login, the second time passport.authenticate
 // is called (in /auth/redirect/),
-// once we actually have the profile data from Google.
 function gotProfile(accessToken, refreshToken, profile, done) {
 
     // Second arg to "done" will be passed into serializeUser,
@@ -197,28 +232,20 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     let lastname = object.family_name;
     let dbRowID = object.sub;
     //check if user is in DB,store him in DB if not already there.
+
     db.get( 'SELECT ? FROM UserInfo WHERE googleID = ?', [dbRowID], tableSearchCallback);
     function tableSearchCallback( err, row ) {
         if(err){throw err;}
         if(row){
-            let userData = {google_id:row.googleID,name: row.firstname};
+            let userData = {id:row.googleID,name: row.firstname};
             done(null, userData);
-        }else {//insert user info into table         
+        }else {//insert user info into table     
+                
             let cmdStr = 'INSERT INTO UserInfo (googleID ,firstname, lastname) VALUES (?,?,?)';
             db.run(cmdStr ,dbRowID ,firstname,lastname);
-            /*
-            let userData = {google_id:dbRowID,name: firstname};
-            done(null, userData);
-            */
             done(null,dbRowID);
             //print out to see data
-            /*
-            db.all ( 'SELECT * FROM UserInfo', dataCallback);            
-            function dataCallback( err, data ) {
-                if(err){console.log(err);}
-                console.log("print data from gotProfile",data);
-            }   
-            */
+            //db.all( 'SELECT * FROM UserInfo', function(data){console.log("print data from gotProfile\n",data);});              
         }        
     }
 }
@@ -229,27 +256,18 @@ function gotProfile(accessToken, refreshToken, profile, done) {
 passport.serializeUser((dbRowID, done) => {
     console.log("SerializeUser. Input is",dbRowID);
     done(null, dbRowID);
-    //do we need to get data from db here and call done(null,userData)???
+    //what to do here???
 });
 
-// Called by passport.session pipeline stage on every HTTP request with
-// a current session cookie.
-// Where we should lookup user database info.
-// Whatever we pass in the "done" callback becomes req.user
-// and can be used by subsequent middleware.
+
 passport.deserializeUser((dbRowID, done) => {
     console.log("deserializeUser. Input is:", dbRowID);
-    // here is a good place to look up user data in database using
-    // dbRowID. Put whatever you want into an object. It ends up
-    // as the property "user" of the "req" object.
-
     let cmdStr ='SELECT * FROM UserInfo WHERE googleID = ? ';
-    let cmdStr2='SELECT * FROM Flashcards WHERE googleID = ? ';
     db.get(cmdStr,[dbRowID],(err,row) =>{
         if(err){return console.error(err.message);}
         if(row){
             let userData = {
-                google_id:dbRowID,
+                id:dbRowID,
                 name: row.firstname
                 };
             //console.log("-----------\n",userData);
@@ -257,6 +275,11 @@ passport.deserializeUser((dbRowID, done) => {
 
         }else{
             console.error("what's going on?I'm not supposed to be here!");
+            done(null,null);
         }
     });
+    
 });
+// Close database on exiting the terminal
+process.on('exit', function(){db.close();}); 
+
