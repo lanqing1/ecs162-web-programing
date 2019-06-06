@@ -168,7 +168,7 @@ var index=0;
 function checkReturn(event) {
     if (event.keyCode==13) {
         event.preventDefault();  //Avoids getting a newline when all we wanted is to detect ENTER
-	input = document.getElementById("textArea").value;
+        input = document.getElementById("textArea").value;
         makeRequest(input);
     }
 }
@@ -181,7 +181,7 @@ function checkAnswer(event) {
         
         //TODO: Actually check answer... have to do this on server side.
         //IF CORRECT CALL flipCard()
-        //IF INCORRECT CALL answerCard(correct_answer)
+        //IF INCORRECT CALL answerCard(correct_answer) correct_answer should be in English.
     }
 }
 
