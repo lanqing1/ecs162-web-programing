@@ -104,13 +104,12 @@ function InputCard() {
     );
 }
 
-function answerCard(answer) {
+function answerCard() {
     //If the user simply clicks on the card, don't show the Correct! sign, instead show the correct answer.
-    console.log("answerCard()");
     let element = document.getElementById("text_correct_id");
     element.classList.add("text_incorrect");
     element.classList.remove("text_correct");
-    element.textContent = "TEMPORARY"; //TODO: replace with answer once its working
+    element.textContent = data[index].korean; 
     document.getElementById("flipMe").style.transform="rotateY(180deg)";
 }
 
@@ -180,9 +179,12 @@ function checkAnswer(event) {
         event.preventDefault();
         let answer = document.getElementById("reviewTextArea").value;
         
-        //TODO: Actually check answer... have to do this on server side.
-        //IF CORRECT CALL flipCard()
-        //IF INCORRECT CALL answerCard(correct_answer) correct_answer should be in English.
+        if(answer==data[index].korean){//if correct update correct
+            flipCard();
+            updateCorrectRequest(data[index].english);
+        }else{
+            answerCard();
+        }
     }
 }
 
@@ -196,23 +198,7 @@ function request(method, url) {
     return xhr;
 }
 
-/* doesn't work. How to check redirect???
-//No longer needed???
-function checkRedirect(){
-    let url = "/auth/accepted";
-    let xhr = request('GET', url);
-    xhr.onload = function() {
-        let responseStr = xhr.responseText;
-        if(responseStr){
-            startReview();
-        }else{
-            backToSave();
-        }
-    }
-    xhr.send();
-    
-}
-*/
+
 
 function getCardsRequest(){
     let url = "/user/getcards";
@@ -220,11 +206,10 @@ function getCardsRequest(){
     xhr.onload = function() {
         let responseStr = xhr.responseText;
         data = JSON.parse(responseStr);
-        //console.log(data);
         if(data){
-            document.getElementById("reviewOutput").textContent = data[0].english;
-            updateSeenRequest(data[0].english);
-            index=1;
+            index = getScore();
+            document.getElementById("reviewOutput").textContent = data[index].english;
+            updateSeenRequest(data[index].english);
         }else{
             document.getElementById("reviewOutput").textContent ="Finished reviewing";
         }
@@ -232,18 +217,37 @@ function getCardsRequest(){
     xhr.send();
 
 }
+function getScore(){
+    var randomNum;
+    var score;
+    var randomCard;
+    do{
+        let arraySize = data.length;
+        randomCard = Math.floor(Math.random() * arraySize);// random card
+        let correct = data[randomCard].correct;
+        let seen = data[randomCard].seen;
+        randomNum=Math.floor(Math.random() * 16);//random num
+        score = Math.max(1,5-correct)+Math.max(1,5-seen)+5*((seen-correct)/seen);
+        console.log("score"+score);
+    }while (randomNum<=score);
+    return(randomCard);
+}
 function nextCard(){
     unFlipCard();
-    if(data[index]){
-        document.getElementById("reviewOutput").textContent = data[index].english;
-        updateSeenRequest(data[index].english);
-        index++;
-    }else{
-        document.getElementById("reviewOutput").textContent = "Finished reviewing";
-    }
+    index=getScore();
+    document.getElementById("reviewOutput").textContent = data[index].english;
+    updateSeenRequest(data[index].english);
 }
 function updateSeenRequest(en){
     let url = "/user/seen?english="+en;
+    let xhr = request('GET',url);
+    xhr.onload = function() {
+        if(xhr.status==204){console.log("updated");}
+    }
+    xhr.send();
+}
+function updateCorrectRequest(en){
+    let url = "/user/correct?english="+en;
     let xhr = request('GET',url);
     xhr.onload = function() {
         if(xhr.status==204){console.log("updated");}
@@ -292,4 +296,25 @@ function makeRequest(anything) {
         alert('Error: Unable to make request');
     };
 }
+//redirect to review page for old users
+function checkUser(){
+    let url = "/user/getcards";
+    let xhr = request('GET', url);
 
+    xhr.onload = function() {
+        let responseStr = xhr.responseText;
+        object = JSON.parse(responseStr);
+        console.log(JSON.stringify(object, undefined, 4));
+        if(object!=undefined){
+            startReview();
+        }else{
+            backToSave();
+        }
+    }
+    xhr.send();
+    xhr.onerror = function() {
+        alert('Error: Unable to make request');
+    };
+
+}
+checkUser();
