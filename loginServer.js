@@ -72,8 +72,8 @@ app.get('/user/seen',function(req,res){
         if(err){throw err;}
         if(row){
             let seen = row.seen+1;
-            console.log("before updated:",row)
-            console.log("updated seen: ",seen);
+            //console.log("before updated:",row)
+            //console.log("updated seen: ",seen);
             db.run('UPDATE Flashcards SET seen = '+seen+' Where english = ? AND user = ?',[en,id]);
             done;
         }       
@@ -90,8 +90,8 @@ app.get('/user/correct',function(req,res){
         if(err){throw err;}
         if(row){
             let correct = row.correct+1;
-            console.log("before updated:",row)
-            console.log("updated correct: ",correct);
+            //console.log("before updated:",row)
+            //console.log("updated correct: ",correct);
             db.run('UPDATE Flashcards SET correct = '+correct+' Where english = ? AND user = ?',[en,id]);
             done;
         }       
@@ -128,7 +128,7 @@ function saveHandler(req,res){
         if(err){throw err;}
         if(row){
             //if already exist-> print out
-            console.log(row);
+            //console.log(row);
             done;
         }else{
             //insert into table        
@@ -227,13 +227,13 @@ function gotProfile(accessToken, refreshToken, profile, done) {
 }
 
 passport.serializeUser((dbRowID, done) => {
-    console.log("SerializeUser. Input is",dbRowID);
+    //console.log("SerializeUser. Input is",dbRowID);
     done(null, dbRowID);
 });
 
 
 passport.deserializeUser((dbRowID, done) => {
-    console.log("deserializeUser. Input is:", dbRowID);
+    //console.log("deserializeUser. Input is:", dbRowID);
     let cmdStr ='SELECT * FROM UserInfo WHERE googleID = ? ';
     db.get(cmdStr,[dbRowID],(err,row) =>{
         if(err){return console.error(err.message);}
