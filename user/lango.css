@@ -59,7 +59,18 @@ body {
 }
 
 .text_correct {
-    padding-top: 120px;
+    color: #33cc33;
+    background-color: #99ff99;
+
+    padding-top: 75px;
+    padding-bottom: 75px;
+
+    margin-top: 40px;
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-bottom: 30px;
+
+    border: 2px solid #33cc33;
 }
 
 #inputCard {

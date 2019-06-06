@@ -163,12 +163,13 @@ function checkReturn(event) {
 }
 
 function checkAnswer(event) {
+    console.log("Checking answer!")
     if (event.keyCode == 13) {
         event.preventDefault();
         let answer = document.getElementById("reviewTextArea").value;
-        console.log("Checking answer!")
+        
         //Actually check answer... have to do this on server side.
-        //update correct
+        //IF CORRECT CALL flipCard()
     }
 }
 
