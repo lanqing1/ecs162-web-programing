@@ -69,6 +69,10 @@ body {
     border: 2px solid #33cc33;
 }
 
+.text_incorrect {
+    padding-top: 120px;
+}
+
 #inputCard {
     background-color: #ffffff;
     border: 2px solid #707c8e;
@@ -120,6 +124,7 @@ div.inputDiv, div.outputDiv {
     padding-left: 25px;
     margin-top: -80px;
 }
+
 #addBtn {
     padding-left:50px;
     padding-right:80px;

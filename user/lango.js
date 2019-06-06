@@ -70,7 +70,7 @@ function FirstCard() {
 function OutputCard() {
     return React.createElement(
         "div",
-        {className: "outputCard", onClick: flipCard},
+        {className: "outputCard", onClick: answerCard},
         React.createElement("img", {id: "refresh", src: "./assets/noun_Refresh_2310283.svg"}),
         React.createElement(
             "div",
@@ -88,7 +88,7 @@ function OutputCard() {
                 {className: "flip-card-back"},
                 React.createElement(
                     "p",
-                    {className: "text_correct"},
+                    {className: "text_correct", id: "text_correct_id"},
                     "Correct!"
                 )
             )
@@ -101,12 +101,20 @@ function InputCard() {
         "div",
         {id: "inputCard"},
         React.createElement("textarea",{id: "reviewTextArea", onKeyDown: checkAnswer})
-        //Check answer, and IF correct then flipCard.
     );
 }
 
+function answerCard(answer) {
+    //If the user simply clicks on the card, don't show the Correct! sign, instead show the correct answer.
+    console.log("answerCard()");
+    let element = document.getElementById("text_correct_id");
+    element.classList.add("text_incorrect");
+    element.classList.remove("text_correct");
+    element.textContent = "TEMPORARY"; //TODO: replace with answer once its working
+    document.getElementById("flipMe").style.transform="rotateY(180deg)";
+}
+
 function flipCard() {
-    console.log("Just here to avoid errors for now");
     document.getElementById("flipMe").style.transform="rotateY(180deg)";
 }
 
@@ -171,8 +179,9 @@ function checkAnswer(event) {
         event.preventDefault();
         let answer = document.getElementById("reviewTextArea").value;
         
-        //Actually check answer... have to do this on server side.
+        //TODO: Actually check answer... have to do this on server side.
         //IF CORRECT CALL flipCard()
+        //IF INCORRECT CALL answerCard(correct_answer)
     }
 }
 
