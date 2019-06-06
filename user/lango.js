@@ -234,15 +234,10 @@ function getScore(){
     return(randomCard);
 }
 function nextCard(){
-    let numCards = data.length;
-    if( numCards == 0 ){
-        document.getElementById("reviewOutput").textContent = "Finished Reviewing!";
-    } else {
-        index=getScore();
-        document.getElementById("reviewOutput").textContent = data[index].korean;
-        updateSeenRequest(data[index].english);
-    }
     unFlipCard();
+    index=getScore();
+    document.getElementById("reviewOutput").textContent = data[index].korean;
+    updateSeenRequest(data[index].english);
 }
 function updateSeenRequest(en){
     let url = "/user/seen?english="+en;
