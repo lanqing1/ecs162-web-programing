@@ -3,9 +3,9 @@
 // An element to go into the DOM
 
 var lango = React.createElement(
-	"h1",
-	{ id: "logo" },
-	"Lango!"
+    "h1",
+    { id: "logo" },
+    "Lango!"
 );
 
 function writeReview() {
@@ -16,10 +16,10 @@ function writeReview() {
 }
 
 function SaveBtn() {
-  return React.createElement(
-		"p",
-		{id: "store",onClick: storeToDB/*,onLoad:checkRedirect()*/},
-		"Save");
+    return React.createElement(
+        "p",
+        {id: "store",onClick: storeToDB/*,onLoad:checkRedirect()*/},
+        "Save");
 }
 
 function addBtn() {
@@ -55,16 +55,16 @@ function ReviewFlexContainer() {
 }
 
 function FirstInputCard() {
-  return React.createElement("div",
-	{className: "inputDiv" },
-	React.createElement("textarea",{id: "textArea",onKeyDown: checkReturn}));
+    return React.createElement("div",
+    {className: "inputDiv" },
+    React.createElement("textarea",{id: "textArea",onKeyDown: checkReturn}));
 }
 
 function FirstCard() {
-  return React.createElement(
-		"div",
-		{className: "outputDiv"},
-		React.createElement("p", {id: "outputGoesHere"}));
+    return React.createElement(
+        "div",
+        {className: "outputDiv"},
+        React.createElement("p", {id: "outputGoesHere"}));
 }
 
 function OutputCard() {
@@ -123,10 +123,11 @@ function unFlipCard() {
 }
 
 function Footer() {
-	return React.createElement("footer",null, " ",
-		React.createElement("p", 
-		{id: "username",onLoad:changeName()},
-		 "username"));
+    return React.createElement("footer",null, " ",
+        React.createElement("p", 
+        {id: "username",onLoad:changeName()},
+         "username")
+    );
 }
 
 var main = React.createElement(
@@ -186,36 +187,39 @@ function checkAnswer(event) {
 }
 
 function storeToDB() {
-	makeRequestStore(input);
+    makeRequestStore(input);
 }
 
 function request(method, url) {
-	let xhr = new XMLHttpRequest();
-	xhr.open(method, url);
-	return xhr;
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    return xhr;
 }
+
 /* doesn't work. How to check redirect???
+//No longer needed???
 function checkRedirect(){
     let url = "/auth/accepted";
     let xhr = request('GET', url);
     xhr.onload = function() {
-		let responseStr = xhr.responseText;
+        let responseStr = xhr.responseText;
         if(responseStr){
             startReview();
         }else{
             backToSave();
         }
-	}
-	xhr.send();
+    }
+    xhr.send();
     
 }
 */
+
 function getCardsRequest(){
     let url = "/user/getcards";
     let xhr = request('GET', url);
     xhr.onload = function() {
-		let responseStr = xhr.responseText;
-		data = JSON.parse(responseStr);
+        let responseStr = xhr.responseText;
+        data = JSON.parse(responseStr);
         //console.log(data);
         if(data){
             document.getElementById("reviewOutput").textContent = data[0].english;
@@ -224,8 +228,8 @@ function getCardsRequest(){
         }else{
             document.getElementById("reviewOutput").textContent ="Finished reviewing";
         }
-	}
-	xhr.send();
+    }
+    xhr.send();
 
 }
 function nextCard(){
@@ -242,50 +246,50 @@ function updateSeenRequest(en){
     let url = "/user/seen?english="+en;
     let xhr = request('GET',url);
     xhr.onload = function() {
-		if(xhr.status==204){console.log("updated");}
-	}
-	xhr.send();
+        if(xhr.status==204){console.log("updated");}
+    }
+    xhr.send();
 }
 
 function changeName(){
-	let url = "/user/query";
-	let xhr = request('GET', url);
-	xhr.onload = function() {
-		let responseStr = xhr.responseText;
-		let object = JSON.parse(responseStr);
-		console.log(JSON.stringify(object, undefined, 4));
-		document.getElementById("username").textContent = object.name;
-	}
-	xhr.send();
-	
+    let url = "/user/query";
+    let xhr = request('GET', url);
+    xhr.onload = function() {
+        let responseStr = xhr.responseText;
+        let object = JSON.parse(responseStr);
+        console.log(JSON.stringify(object, undefined, 4));
+        document.getElementById("username").textContent = object.name;
+    }
+    xhr.send();
+    
 }
 
 function makeRequestStore(anything){
-	let url="/user/store?english="+anything+"&korean="+object.Korean;
-	let xhr = request('GET', url);
-	xhr.onload = function() {
-		//xhr.status can check if it's stored.
-		if(xhr.status==204){
-			console.log("successfully stored");
-		}
-	}
-	xhr.send();
+    let url="/user/store?english="+anything+"&korean="+object.Korean;
+    let xhr = request('GET', url);
+    xhr.onload = function() {
+        //xhr.status can check if it's stored.
+        if(xhr.status==204){
+            console.log("successfully stored");
+        }
+    }
+    xhr.send();
 }
 
 function makeRequest(anything) {
-	let url="/user/translate?word="+anything;
-	let xhr = request('GET', url);
+    let url="/user/translate?word="+anything;
+    let xhr = request('GET', url);
 
-	xhr.onload = function() {
-		let responseStr = xhr.responseText;
-		object = JSON.parse(responseStr);
-		console.log(JSON.stringify(object, undefined, 4));
-		document.getElementById("outputGoesHere").textContent = object.Korean;
-		//xhr.status can check if it's stored.
-	}
-	xhr.send();
-	xhr.onerror = function() {
-		alert('Error: Unable to make request');
-	};
+    xhr.onload = function() {
+        let responseStr = xhr.responseText;
+        object = JSON.parse(responseStr);
+        console.log(JSON.stringify(object, undefined, 4));
+        document.getElementById("outputGoesHere").textContent = object.Korean;
+        //xhr.status can check if it's stored.
+    }
+    xhr.send();
+    xhr.onerror = function() {
+        alert('Error: Unable to make request');
+    };
 }
 
