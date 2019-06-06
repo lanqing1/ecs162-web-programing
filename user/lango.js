@@ -198,8 +198,6 @@ function request(method, url) {
     return xhr;
 }
 
-var numCards;
-
 function getCardsRequest(){
     let url = "/user/getcards";
     let xhr = request('GET', url);
@@ -208,13 +206,9 @@ function getCardsRequest(){
         data = JSON.parse(responseStr);
         console.log("getCardsRequest: ",JSON.stringify(data, undefined, 4));
         if(data){
-            numCards = data.length;
             index = getScore();
             document.getElementById("reviewOutput").textContent = data[index].korean;
             updateSeenRequest(data[index].english);
-        }else{
-            document.getElementById("reviewOutput").textContent ="Finished reviewing";
-        }
     }
     xhr.send();
 
@@ -234,15 +228,10 @@ function getScore(){
     }while (randomNum<=score);
     return(randomCard);
 }
-function nextCard(){
-    if( numCards == 0 ){
-        document.getElementById("reviewOutput").textContent = "Finished Reviewing!";
-    } else {
-        index=getScore();
-        document.getElementById("reviewOutput").textContent = data[index].korean;
-        updateSeenRequest(data[index].english);
-        numCards--;
-    }
+function nextCard() {
+    index=getScore();
+    document.getElementById("reviewOutput").textContent = data[index].korean;
+    updateSeenRequest(data[index].english);
     unFlipCard();
 }
 function updateSeenRequest(en){
