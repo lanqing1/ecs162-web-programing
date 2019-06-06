@@ -241,7 +241,6 @@ function nextCard(){
         index=getScore();
         document.getElementById("reviewOutput").textContent = data[index].korean;
         updateSeenRequest(data[index].english);
-        numCards--;
     }
     unFlipCard();
 }
