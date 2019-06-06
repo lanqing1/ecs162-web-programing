@@ -198,7 +198,7 @@ function request(method, url) {
     return xhr;
 }
 
-
+var = numCards;
 
 function getCardsRequest(){
     let url = "/user/getcards";
@@ -208,6 +208,7 @@ function getCardsRequest(){
         data = JSON.parse(responseStr);
         console.log("getCardsRequest: ",JSON.stringify(data, undefined, 4));
         if(data){
+            numCards = data.length;
             index = getScore();
             document.getElementById("reviewOutput").textContent = data[index].korean;
             updateSeenRequest(data[index].english);
@@ -234,7 +235,6 @@ function getScore(){
     return(randomCard);
 }
 function nextCard(){
-    let numCards = data.length;
     if( numCards == 0 ){
         document.getElementById("reviewOutput").textContent = "Finished Reviewing!";
     } else {
