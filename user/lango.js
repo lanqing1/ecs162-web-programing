@@ -305,10 +305,10 @@ function checkUser(){
         let responseStr = xhr.responseText;
         object = JSON.parse(responseStr);
         console.log(JSON.stringify(object, undefined, 4));
-        if(object!=undefined){
-            startReview();
-        }else{
+        if(object==undefined){
             backToSave();
+        }else{
+            startReview();
         }
     }
     xhr.send();
