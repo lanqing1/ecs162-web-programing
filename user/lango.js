@@ -70,11 +70,11 @@ function FirstCard() {
 function OutputCard() {
     return React.createElement(
         "div",
-        {className: "outputCard"},
-        React.createElement("img", {id: "refresh", src: "./assets/noun_Refresh_2310283.svg", onClick: flipCard}),
+        {className: "outputCard", onClick: flipCard},
+        React.createElement("img", {id: "refresh", src: "./assets/noun_Refresh_2310283.svg"}),
         React.createElement(
             "div",
-            {className: "flip-card-inner"},
+            {className: "flip-card-inner", id: "flipMe"},
             React.createElement(
                 "div",
                 {className: "flip-card-front"},
@@ -107,6 +107,7 @@ function InputCard() {
 
 function flipCard() {
     console.log("Just here to avoid errors for now");
+    document.getElementById("flipMe").style.transform="rotateY(180deg)";
     //Implement flipcard. I think there is a demo.
 }
 
