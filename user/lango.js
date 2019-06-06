@@ -101,14 +101,17 @@ function InputCard() {
         "div",
         {id: "inputCard"},
         React.createElement("textarea",{id: "reviewTextArea", onKeyDown: checkAnswer})
-        //click or hit enter will flip cards and check answer???
+        //Check answer, and IF correct then flipCard.
     );
 }
 
 function flipCard() {
     console.log("Just here to avoid errors for now");
     document.getElementById("flipMe").style.transform="rotateY(180deg)";
-    //Implement flipcard. I think there is a demo.
+}
+
+function unFlipCard() {
+    document.getElementById("flipMe").style.transform="none";
 }
 
 function Footer() {
@@ -217,6 +220,7 @@ function getCardsRequest(){
 
 }
 function nextCard(){
+    unFlipCard();
     if(data[index]){
         document.getElementById("reviewOutput").textContent = data[index].english;
         updateSeenRequest(data[index].english);
