@@ -206,7 +206,7 @@ function getCardsRequest(){
     xhr.onload = function() {
         let responseStr = xhr.responseText;
         data = JSON.parse(responseStr);
-        console.log("getCardsRequest: ",JSON.stringify(data, undefined, 4));
+        console.log("getCardsRequest: ",responseStr);
         if(data){
             index = getScore();
             document.getElementById("reviewOutput").textContent = data[index].korean;
