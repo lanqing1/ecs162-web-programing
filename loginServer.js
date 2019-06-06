@@ -26,7 +26,7 @@ const app = express();
 app.use('/', printURL);// pipeline stage that just echos url, for debugging
 
 app.use(cookieSession({ // Check validity of cookies at the beginning of pipeline
-    maxAge: 6 * 60 * 60 * 1000, // Six hours in msec
+    maxAge: 6 * 60 * 60 * 1000, 
     keys: ['hanger waldo mercy dance'] 
 }));
 
@@ -37,29 +37,16 @@ app.use(passport.session());
 // Public static files
 app.get('/*',express.static('public'));
 
-//object { scope: ['profile'] } ask Google for user profile information.
-//redirect to Google from login page.
 app.get('/auth/google', passport.authenticate('google',{ scope: ['profile'] }) );
-// passport.authenticate sends off the 302 response
 
-// Google redirects here after user successfully logs in
-// This route has three handler functions, one run after the other.
 app.get(redirectURL,
 	// for educational purposes
 	function (req, res, next) {
-        //   here should check do we need redirect to review ???
- 
 	    console.log("at auth/accepted");
 	    next();
     },
-	// This will issue Server's own HTTPS request to Google
-	// to access the user's profile information with the
-	// temporary key we got in the request.
+	
     passport.authenticate('google'),    
-	// then it will run the "gotProfile" callback function,
-	// set up the cookie, call serialize, whose "done"
-	// will come back here to send back the response
-	// ...with a cookie in it for the Browser!
 	function (req, res) {
 	    console.log('Logged in and using cookies!')
         res.redirect('/user/lango.html');
@@ -95,7 +82,7 @@ app.get('/user/seen',function(req,res){
     res.statusCode=204;
     res.send();
 });
-/* update correct
+
 app.get('/user/correct',function(req,res){
     let id = req.user.id
     let en = req.query.english;
@@ -113,7 +100,7 @@ app.get('/user/correct',function(req,res){
     res.statusCode=204;
     res.send();
 });
-*/
+
 
 // finally, not found...applies to everything
 app.use( fileNotFound );
@@ -201,8 +188,6 @@ function printURL (req, res, next) {
 // personal data
 function isAuthenticated(req, res, next) {
     if (req.user) {
-    //console.log("Req.session:",req.session);
-    //console.log("Req.user:",req.user);
     console.log("isAutenticated function~\n");
 	next();
     } else {
@@ -219,19 +204,13 @@ function fileNotFound(req, res) {
     res.send('Cannot find '+url);
     }
 
-// The callback "done" at the end of each one resumes Passport's
-// internal process.
-// function called during login, the second time passport.authenticate
-// is called (in /auth/redirect/),
+
 function gotProfile(accessToken, refreshToken, profile, done) {
 
-    // Second arg to "done" will be passed into serializeUser,
-    // should be key to get user out of database.
     let object = profile._json;
     let firstname = object.given_name;
     let lastname = object.family_name;
     let dbRowID = object.sub;
-    //check if user is in DB,store him in DB if not already there.
 
     db.get( 'SELECT ? FROM UserInfo WHERE googleID = ?', [dbRowID], tableSearchCallback);
     function tableSearchCallback( err, row ) {
@@ -244,19 +223,13 @@ function gotProfile(accessToken, refreshToken, profile, done) {
             let cmdStr = 'INSERT INTO UserInfo (googleID ,firstname, lastname) VALUES (?,?,?)';
             db.run(cmdStr ,dbRowID ,firstname,lastname);
             done(null,dbRowID);
-            //print out to see data
-            //db.all( 'SELECT * FROM UserInfo', function(data){console.log("print data from gotProfile\n",data);});              
-        }        
+           }        
     }
 }
 
-// Part of Server's sesssion set-up.
-// The second operand of "done" becomes the input to deserializeUser
-// on every subsequent HTTP request with this session's cookie.
 passport.serializeUser((dbRowID, done) => {
     console.log("SerializeUser. Input is",dbRowID);
     done(null, dbRowID);
-    //what to do here???
 });
 
 
@@ -270,7 +243,6 @@ passport.deserializeUser((dbRowID, done) => {
                 id:dbRowID,
                 name: row.firstname
                 };
-            //console.log("-----------\n",userData);
             done(null, userData);
 
         }else{
@@ -282,4 +254,3 @@ passport.deserializeUser((dbRowID, done) => {
 });
 // Close database on exiting the terminal
 process.on('exit', function(){db.close();}); 
-
