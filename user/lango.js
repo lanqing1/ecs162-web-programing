@@ -198,7 +198,7 @@ function request(method, url) {
     return xhr;
 }
 
-var = numCards;
+var numCards;
 
 function getCardsRequest(){
     let url = "/user/getcards";
