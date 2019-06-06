@@ -235,7 +235,7 @@ function getScore(){
 function nextCard(){
     unFlipCard();
     index=getScore();
-    document.getElementById("reviewOutput").textContent = data[index].english;
+    document.getElementById("reviewOutput").textContent = data[index].korean;
     updateSeenRequest(data[index].english);
 }
 function updateSeenRequest(en){
