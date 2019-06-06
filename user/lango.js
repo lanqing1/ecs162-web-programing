@@ -309,7 +309,7 @@ function checkUser(){
             backToSave();
         }else{
             startReview();
-            console.log(object);
+            console.log("checkUser(): ", object);
         }
     }
     xhr.send();

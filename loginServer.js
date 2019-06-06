@@ -50,7 +50,6 @@ app.get(redirectURL,
 	function (req, res) {
 	    console.log('Logged in and using cookies!')
         res.redirect('/user/lango.html');
-        res.send(flag);
 	});
 
 // static files in /user are only available after login
