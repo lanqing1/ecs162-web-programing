@@ -19,6 +19,7 @@ body {
 
 .outputCard {
     background-color: transparent;
+    position: relative;
     border: 2px solid #707c8e;
     font-family: Helvetica, Helvetica Neue;
     text-align: center;
@@ -49,7 +50,7 @@ body {
     backface-visibility: hidden;
 }
 
-#flip-card-back {
+.flip-card-back {
     transform: rotateY(180deg);
 }
 
