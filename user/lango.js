@@ -109,7 +109,7 @@ function answerCard() {
     let element = document.getElementById("text_correct_id");
     element.classList.add("text_incorrect");
     element.classList.remove("text_correct");
-    element.textContent = data[index].korean; 
+    element.textContent = data[index].english; 
     document.getElementById("flipMe").style.transform="rotateY(180deg)";
 }
 
@@ -179,7 +179,7 @@ function checkAnswer(event) {
         event.preventDefault();
         let answer = document.getElementById("reviewTextArea").value;
         
-        if(answer==data[index].korean){//if correct update correct
+        if(answer==data[index].english){//if correct update correct
             flipCard();
             updateCorrectRequest(data[index].english);
         }else{
