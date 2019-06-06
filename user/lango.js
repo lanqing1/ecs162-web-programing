@@ -208,7 +208,7 @@ function getCardsRequest(){
         data = JSON.parse(responseStr);
         if(data){
             index = getScore();
-            document.getElementById("reviewOutput").textContent = data[index].english;
+            document.getElementById("reviewOutput").textContent = data[index].korean;
             updateSeenRequest(data[index].english);
         }else{
             document.getElementById("reviewOutput").textContent ="Finished reviewing";
