@@ -70,9 +70,29 @@ function FirstCard() {
 function OutputCard() {
     return React.createElement(
         "div",
-        {id: "outputCard"},
+        {className: "outputCard"},
         React.createElement("img", {id: "refresh", src: "./assets/noun_Refresh_2310283.svg", onClick: flipCard}),
-        React.createElement("p", {id: "reviewOutput",onLoad:getCardsRequest()})
+        React.createElement(
+            "div",
+            {className: "flip-card-inner"},
+            React.createElement(
+                "div",
+                {className: "flip-card-front"},
+                React.createElement(
+                    "p",
+                    {id: "reviewOutput", onLoad:getCardsRequest()}
+                )
+            ),
+            React.createElement(
+                "div",
+                {className: "flip-card-back"},
+                React.createElement(
+                    "p",
+                    {className: "text_correct"},
+                    "Correct!"
+                )
+            )
+        )       
     );
 }
 
@@ -253,3 +273,4 @@ function makeRequest(anything) {
 		alert('Error: Unable to make request');
 	};
 }
+
